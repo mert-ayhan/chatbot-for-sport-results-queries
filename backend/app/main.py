@@ -30,6 +30,15 @@ app.add_middleware(
 class Query(BaseModel):
     question: str
 
+greetings = {"hi": "Hello! How can I help you?"}
+
 @app.post("/ask")
 def ask_question(query: Query):
+  if query.question.lower() in greetings:
+    print('Greeting detected')
+    print(greetings[query.question.lower()])
+    return {
+        "answer": greetings[query.question.lower()]
+    }
+  else:
     return question_answerer(question=query.question, context=context)
